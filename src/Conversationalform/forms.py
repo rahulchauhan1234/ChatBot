@@ -17,12 +17,6 @@ genai.configure(api_key=GEMINI_API_KEY)
 JSON_FILE_PATH = 'user_information.json'
 
 def save_user_information(name, phone, email):
-    # Load existing data
-    if os.path.exists(JSON_FILE_PATH):
-        with open(JSON_FILE_PATH, 'r') as file:
-            data = json.load(file)
-    else:
-        data = []
 
     # Add new user information
     new_user = {
@@ -30,11 +24,9 @@ def save_user_information(name, phone, email):
         "phone": phone,
         "email": email
     }
-    data.append(new_user)
-
     # Save updated data back to the JSON file
     with open(JSON_FILE_PATH, 'w') as file:
-        json.dump(data, file, indent=4)
+        json.dump(new_user, file, indent=4)
 
 def load_user_information():
     # Load existing data

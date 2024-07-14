@@ -52,7 +52,7 @@ def main():
         knowledgeBase = process_text(text)
         
         # Insert queries to predict
-        query = st.text_input('Ask a question to the PDF or type "call me" to request a call back')
+        query = st.text_input('Ask a question related to the PDF ')
         cancel_button = st.button('Cancel')
         
         #cancel button to stop the search
