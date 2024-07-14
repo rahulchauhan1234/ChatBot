@@ -35,24 +35,6 @@ def process_text(text):
     
     return knowledgeBase
 
-#Getting the users informations when user inserts call back
-def get_user_information():
-    st.subheader("Please provide your information for a callback")
-    
-    name = st.text_input("What's your name?")
-    phone = st.text_input("What's your phone number?")
-    email = st.text_input("What's your email address?")
-    
-    # When submit button is clicked
-    if st.button("Submit"):
-        if name and phone and email:
-            user_info["name"] = name
-            user_info["phone"] = phone
-            user_info["email"] = email
-            st.write(f"Thank you {name}! Our team will contact you soon.")
-        else:
-            st.write("Please provide all the information.")    
-
 # Main program to read the pdf 
 def main():
     st.title("Chat with your PDF 💬")
@@ -79,27 +61,18 @@ def main():
         
         #queries
         if query:
-            # If query is "call me" then call back function is called where users enters the records
-            if "call me" in query.lower():
-                get_user_information()
-            # Questions users wants to asks
-            else:
-                docs = knowledgeBase.similarity_search(query) # Performing the similarity search from the pdf provided
-                #defining the LLM model to be used by the model
-                llm = HuggingFacePipeline.from_model_id(model_id="google/flan-t5-large", task="text2text-generation", model_kwargs={"temperature": 0, "max_length": 200}, device=0) 
-                chain = load_qa_chain(llm, chain_type='stuff') # Defining the chunks types
+            docs = knowledgeBase.similarity_search(query) # Performing the similarity search from the pdf provided
+            #defining the LLM model to be used by the model
+            llm = HuggingFacePipeline.from_model_id(model_id="google/flan-t5-large", task="text2text-generation", model_kwargs={"temperature": 0, "max_length": 200}, device=0) 
+            chain = load_qa_chain(llm, chain_type='stuff') # Defining the chunks types
                 
                 # Returns the queries asked
-                with get_openai_callback() as cost:
-                    response = chain.run(input_documents=docs, question=query)
-                    print(cost)
-                
-                # Returns user info
-                if user_info["name"]:
-                    response += f"\n\n(User: {user_info['name']}, Phone: {user_info['phone']}, Email: {user_info['email']})"
-                    
+            with get_openai_callback() as cost:
+                response = chain.run(input_documents=do cs, question=query)
+                print(cost)
+              
                 #generated responses    
-                st.write(response)
+            st.write(response)
     
 if __name__ == "__main__":
     main()
