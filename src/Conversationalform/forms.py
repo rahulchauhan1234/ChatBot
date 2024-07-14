@@ -54,10 +54,12 @@ def get_user_information():
             response = generate_response(prompt)
         return response
     
-    #
+    # Header
     st.subheader("Welcome to our service!")
+    #Input text area
     user_question = st.text_input("How can I assist you today?")
 
+    # Call the form to fill by the users
     if "call" in user_question.lower():
         st.write("Sure, I can arrange a call for you. I just need some information.")
         
@@ -65,12 +67,15 @@ def get_user_information():
         phone = st.text_input("What's your phone number?")
         email = st.text_input("What's your email address?")
         
+        #When submit button is clicked
         if st.button("Submit"):
             if name and phone and email:
                 save_user_information(name, phone, email)
                 st.write("Thank you! Our team will contact you soon.")
             else:
                 st.write("Please provide all the information.")
+
+    #Response when users ask the questions about their informations stored in the forms            
     else:
         if user_question:
             prompt = f''' You are an expert at question-answering. Below is the provided data for the context:
