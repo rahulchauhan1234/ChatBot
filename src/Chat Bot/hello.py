@@ -12,13 +12,6 @@ from langchain.callbacks import get_openai_callback
 # Load .env having the huggingface key
 load_dotenv()
 
-# Global variables to store user information
-user_info = {
-    "name": "",
-    "phone": "",
-    "email": ""
-}
-
 # Spliting of the text into chunks 
 def process_text(text):
     text_splitter = CharacterTextSplitter(
@@ -39,11 +32,11 @@ def process_text(text):
 def main():
     st.title("Chat with your PDF 💬")
     
-    pdf = st.file_uploader('Upload your PDF Document', type='pdf') #User's upload the pdf documents here
+    pdf = st.file_uploader('Upload your PDF Document', type='pdf') #User's upload the pdf document here only one document is taken to be read
     
     if pdf is not None:
         pdf_reader = PdfReader(pdf)
-        # Text variable will store the pdf text for every pages
+        # Text variable will store the pdf text for every pages avaliable in the pdf
         text = ""
         for page in pdf_reader.pages:
             text += page.extract_text()
@@ -51,7 +44,7 @@ def main():
         # knowledge base object
         knowledgeBase = process_text(text)
         
-        # Insert queries to predict
+        # Insert users queries to system
         query = st.text_input('Ask a question related to the PDF ')
         cancel_button = st.button('Cancel')
         
@@ -71,7 +64,7 @@ def main():
                 response = chain.run(input_documents=do cs, question=query)
                 print(cost)
               
-                #generated responses    
+                #Generates responses    
             st.write(response)
     
 if __name__ == "__main__":

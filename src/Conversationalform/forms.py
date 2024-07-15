@@ -5,17 +5,19 @@ import os
 import json
 import google.generativeai as genai
 
-# Load environment variables
+# Load .env having the gemini api key
 load_dotenv()
 
-# Retrieve the GEMINI API key from environment variables
+# Retrieve the gemini api key from environment variable
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
+#genai configurations with gemini api key
 genai.configure(api_key=GEMINI_API_KEY)
 
-# Define the JSON file path
+# Defining the JSON file path
 JSON_FILE_PATH = 'user_information.json'
 
+#For user information
 def save_user_information(name, phone, email):
 
     # Add new user information
@@ -28,6 +30,7 @@ def save_user_information(name, phone, email):
     with open(JSON_FILE_PATH, 'w') as file:
         json.dump(new_user, file, indent=4)
 
+#Loading the user informations
 def load_user_information():
     # Load existing data
     if os.path.exists(JSON_FILE_PATH):
